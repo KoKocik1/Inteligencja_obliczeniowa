@@ -7,9 +7,9 @@ liczba_iteracji = 10000
 liczba_osobnikow = 100
 f = 0.7
 cr = 0.5
-wymiar = 4
+wymiar = 3
 
-algorymtNr=4
+algorymtNr=1
 
 algorytmEwolucyjny = AlgorytmEwolucyjny()
 
@@ -36,7 +36,6 @@ if algorymtNr==4:
     algorytmEwolucyjny.zakres=[0,math.pi]
     algorytmEwolucyjny.oczekiwana_wartosc=[-1.80, -2.76, -3.7, -4.69, -5.69, -6.68, -7.66, -8.66, -9.66, -10.65]
     algorytmEwolucyjny.oczekiwany_zakres=[0 , 0]
-
 
 if algorymtNr>=5:
     algorytmEwolucyjny.funkcja=algorytmEwolucyjny.schwefel_function
