@@ -32,13 +32,13 @@ def swap(route):
     route[idx1], route[idx2] = route[idx2], route[idx1]
     return route
 
-# Operator odwracający kolejność fragmentu trasy
+# Oswap kolejność fragmentu trasy
 def reverse_subroute(route):
     start, end = sorted(random.sample(range(len(route)), 2))
     route[start:end+1] = reversed(route[start:end+1])
     return route
 
-# Operator przemieszczający losowy podciąg trasy na inne miejsce
+#  losowy podciąg trasy na inne miejsce
 def shuffle(route):
     start, end = sorted(random.sample(range(len(route)), 2))
     shuffled_segment = route[start:end+1]

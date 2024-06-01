@@ -3,7 +3,6 @@ from wykresy import Wykresy
 import numpy as np
 import math
 
-# Parametry algorytmu
 liczba_iteracji = 10000
 liczba_osobnikow = 100
 f = 0.7
@@ -46,21 +45,18 @@ if algorymtNr>=5:
 
 wykresy= Wykresy()
 
-# Inicjalizacja populacji
+# init populacji
 populacja = algorytmEwolucyjny.inicjalizuj_populacje(liczba_osobnikow, wymiar)
 
-# Iteracje do wygenerowania wykresów
+# co ile wykres rysuj
 iteracje_wykres = [1, 20, 50, 100, 200, 500, 1000, 5000, 9999]
-
-# Tworzenie osi X dla iteracji
 osie_x = list(range(liczba_iteracji))
 
-# Pętla główna ewolucji różnicowej
 najlepsze_rozwiazanie_iteracji = []
 srednie_rozwiazanie_iteracji = []
 najgorsze_rozwiazanie_iteracji = []
 
-# Pętla główna ewolucji różnicowej
+# main for ewolucja różnicowa
 for iteracja in range(liczba_iteracji):
     nowa_populacja = algorytmEwolucyjny.mutacja_roznicowa(populacja, f)
     for i in range(len(populacja)):
@@ -72,7 +68,7 @@ for iteracja in range(liczba_iteracji):
             wykresy.wygeneruj_wykres(f"Wykres iteracji {iteracja}", np.array(populacja))
 
     
-    # Obliczanie wartości funkcji dla każdego osobnika
+    # wartość funkcji dla każdego osobnika
     wartosci_funkcji = [algorytmEwolucyjny.funkcja_celu(osobnik) for osobnik in populacja]
     
     # Najlepsze, średnie i najgorsze rozwiązanie w iteracji
@@ -80,12 +76,10 @@ for iteracja in range(liczba_iteracji):
     srednie_rozwiazanie = np.mean(wartosci_funkcji)
     najgorsze_rozwiazanie = max(wartosci_funkcji)
     
-    # Dodaj wyniki do list
     najlepsze_rozwiazanie_iteracji.append(najlepsze_rozwiazanie)
     srednie_rozwiazanie_iteracji.append(srednie_rozwiazanie)
     najgorsze_rozwiazanie_iteracji.append(najgorsze_rozwiazanie)
     
-# Raportowanie wyników
 najlepsze_rozwiazanie = min(populacja, key=lambda x: algorytmEwolucyjny.funkcja_celu(x))
 najlepsza_wartosc = algorytmEwolucyjny.funkcja_celu(najlepsze_rozwiazanie)
 print("Najlepsze rozwiązanie:", najlepsze_rozwiazanie)
