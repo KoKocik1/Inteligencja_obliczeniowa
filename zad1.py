@@ -2,6 +2,7 @@ from algorytmEwolucyjny import AlgorytmEwolucyjny
 from wykresy import Wykresy
 import numpy as np
 import math
+
 # Parametry algorytmu
 liczba_iteracji = 10000
 liczba_osobnikow = 100
