@@ -1,0 +1,61 @@
+Prace wykonał Krzysztof Kokot
+
+Zadanie 2:
+Funkcja symulowanego wyżarzania:
+1. Inicjalizuj:
+    - Losową trasę jako current_solution
+    - Oblicz jej długość jako current_distance
+    - Skopiuj current_solution do best_solution
+    - Ustaw best_distance na current_distance
+    - Ustaw początkową temperaturę na initial_temperature
+
+2. Pętla dopóki temperatura jest większa od stopping_temperature:
+    a. Wybierz losowy operator (swap, reverse_subroute, shuffle, random_insert)
+    b. Zastosuj wybrany operator do kopii current_solution, tworząc new_solution
+    c. Oblicz długość new_solution jako new_distance
+
+    d. Jeśli new_distance jest mniejsze od current_distance lub
+       new_distance jest zaakceptowane według prawdopodobieństwa:
+        - Ustaw current_solution na new_solution
+        - Ustaw current_distance na new_distance
+
+    e. Jeśli current_distance jest mniejsze od best_distance:
+        - Skopiuj current_solution do best_solution
+        - Ustaw best_distance na current_distance
+
+    f. Obniż temperaturę mnożąc ją przez cooling_rate
+
+3. Zwróć best_solution i best_distance
+
+Dodatkowo, jeśli chcesz rysować wykresy co pewien czas:
+    - Dodaj current_distance do listy distances co log_interval iteracji
+    - Rysuj najlepszą trasę co plot_interval iteracji
+
+Funkcja pomocnicza do obliczania długości trasy:
+- Oblicz odległość między każdą parą kolejnych miast w trasie
+- Dodaj odległość między ostatnim miastem a pierwszym
+
+Funkcja do generowania losowej trasy:
+- Wygeneruj losową permutację miast
+
+
+Zadanie 1:
+1. Inicjalizacja AlgorytmEwolucyjny
+   a. Ustawienie funkcji celu i zakresu wartości zmiennych
+
+2. Inicjalizacja populacji
+   a. Tworzenie losowej populacji osobników w danym zakresie
+
+3. Główna pętla ewolucji przez określoną liczbę iteracji
+   a. Wykonanie mutacji różnicowej na populacji
+      i. Wybór trzech losowych osobników
+      ii. Tworzenie mutanta na podstawie różnic tych osobników
+   b. Krzyżowanie osobników
+      i. Łączenie rodzica z mutantem, tworzenie nowego osobnika
+   c. Sukcesja zachłanna
+      i. Wybór najlepszych osobników na podstawie wartości funkcji celu
+
+4. Zapisanie wyników iteracji
+   a. Najlepsze, średnie i najgorsze wartości funkcji celu
+
+5. Wypisanie najlepszego rozwiązania i jego wartości funkcji celu
