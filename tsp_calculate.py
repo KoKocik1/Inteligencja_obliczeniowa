@@ -2,6 +2,7 @@ import random
 import math
 import matplotlib.pyplot as plt
 
+
 def plot_route(route, cities, title):
     plt.figure(figsize=(10, 6))
     x = [cities[city][0] for city in route] + [cities[route[0]][0]]
@@ -9,36 +10,49 @@ def plot_route(route, cities, title):
     plt.plot(x, y, marker='o')
     plt.title(title)
     plt.show()
-    
+
 # długość trasy
+
+
 def calculate_distance(city1, city2):
     return math.sqrt((city1[0] - city2[0])**2 + (city1[1] - city2[1])**2)
 
 # długość całej trasy
+
+
 def total_distance(route, cities):
     total = 0
     for i in range(len(route) - 1):
         total += calculate_distance(cities[route[i]], cities[route[i+1]])
-    total += calculate_distance(cities[route[-1]], cities[route[0]])  # Dodanie dystansu do pierwszego miasta
+    # Dodanie dystansu do pierwszego miasta
+    total += calculate_distance(cities[route[-1]], cities[route[0]])
     return total
 
 # losowa trasa
+
+
 def generate_random_route(cities):
     return random.sample(range(len(cities)), len(cities))
 
 # swap dwa losowe miasta w trasie
+
+
 def swap(route):
     idx1, idx2 = random.sample(range(len(route)), 2)
     route[idx1], route[idx2] = route[idx2], route[idx1]
     return route
 
 # Oswap kolejność fragmentu trasy
+
+
 def reverse_subroute(route):
     start, end = sorted(random.sample(range(len(route)), 2))
     route[start:end+1] = reversed(route[start:end+1])
     return route
 
 #  losowy podciąg trasy na inne miejsce
+
+
 def shuffle(route):
     start, end = sorted(random.sample(range(len(route)), 2))
     shuffled_segment = route[start:end+1]
@@ -47,31 +61,36 @@ def shuffle(route):
     return route
 
 # random wstawiający miasto w inną pozycję
+
+
 def random_insert(route):
     idx1, idx2 = random.sample(range(len(route)), 2)
     route.insert(idx1, route.pop(idx2))
     return route
 
 # alg symulowanego wyżarzania
+
+
 def simulated_annealing(cities, initial_temperature=1000, cooling_rate=0.99, stopping_temperature=0.1, log_interval=100, plot_interval=100):
     current_solution = generate_random_route(cities)
     current_distance = total_distance(current_solution, cities)
     best_solution = current_solution.copy()
     best_distance = current_distance
-    
+
     temperature = initial_temperature
     iteration = 0
     distances = []
 
     while temperature > stopping_temperature:
-        operator = random.choice([swap, reverse_subroute, shuffle, random_insert])
+        operator = random.choice(
+            [swap, reverse_subroute, shuffle, random_insert])
         new_solution = operator(current_solution.copy())
         new_distance = total_distance(new_solution, cities)
-        
+
         if new_distance < current_distance or random.random() < math.exp((current_distance - new_distance) / temperature):
             current_solution = new_solution
             current_distance = new_distance
-        
+
         if current_distance < best_distance:
             best_solution = current_solution.copy()
             best_distance = current_distance
@@ -80,8 +99,9 @@ def simulated_annealing(cities, initial_temperature=1000, cooling_rate=0.99, sto
             distances.append(best_distance)
 
         if iteration % plot_interval == 0:
-            plot_route(best_solution, cities, f'Best Route at Iteration {iteration}')
-        
+            plot_route(best_solution, cities,
+                       f'Best Route at Iteration {iteration}')
+
         temperature *= cooling_rate
         iteration += 1
 
@@ -91,6 +111,8 @@ def simulated_annealing(cities, initial_temperature=1000, cooling_rate=0.99, sto
     return best_solution, best_distance, distances
 
 # read TSPLib
+
+
 def read_tsplib(file_path):
     cities = []
     with open(file_path, 'r') as file:
@@ -109,9 +131,11 @@ def read_tsplib(file_path):
                     print("Error parsing coordinates in line:", line)
     return cities
 
+
 # z gita
-#tsplib_files = ["tsp/berlin52.tsp", "tsp/eil51.tsp", "tsp/st70.tsp", "tsp/eil76.tsp", "tsp/eil101.tsp"]
-tsplib_files = ["tsp1/a280.tsp","tsp1/brd14051.tsp","tsp1/dsj1000.tsp","tsp1/gr666.tsp","tdp1/pr1002.tsp"]
+# tsplib_files = ["tsp_small/berlin52.tsp", "tsp_small/eil51.tsp", "tsp_small/st70.tsp", "tsp_small/eil76.tsp", "tsp_small/eil101.tsp"]
+tsplib_files = ["tsp_large/a280.tsp", "tsp_large/brd14051.tsp",
+                "tsp_large/dsj1000.tsp", "tsp_large/gr666.tsp", "tsp_large/pr1002.tsp"]
 
 for file_name in tsplib_files:
     file_path = file_name
@@ -121,7 +145,8 @@ for file_name in tsplib_files:
     plt.xlabel('Iteration (x100)')
     plt.ylabel('Best Distance')
     plt.title('Best Distance over Iterations for '+file_name)
-    plt.xticks(range(len(distances)), [str(i*100) for i in range(len(distances))])
+    plt.xticks(range(len(distances)), [str(i*100)
+               for i in range(len(distances))])
     plt.show()
     print("File:", file_name)
     print("Best Route:", best_solution)
