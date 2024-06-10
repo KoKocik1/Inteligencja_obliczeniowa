@@ -17,8 +17,8 @@ class EvolutionAlgorithm:
     def rotated_hyper_ellipsoid(self, x):
         return sum([(sum(x[:i+1]))**2 for i in range(len(x))])
 
-    # def styblinski_tang_function(self, x):
-    #     return 0.5 * sum([(i**4 - 16*i**2 + 5*i) for i in x])
+    def styblinski_tang_function(self, x):
+        return 0.5 * sum([(i**4 - 16*i**2 + 5*i) for i in x])
 
     def michalewicz_function(self, x, m=10):
         return -sum([math.sin(x[i]) * math.sin((i+1) * x[i]**2 / math.pi)**(2*m) for i in range(len(x))])
@@ -26,8 +26,8 @@ class EvolutionAlgorithm:
     def power_sum_function(self, x, p=4):
         return sum([abs(x[i])**(p+i) for i in range(len(x))])
 
-    def schwefel_function(self, x):
-        return 418.9829 * len(x) - sum([x[i] * math.sin(math.sqrt(abs(x[i]))) for i in range(len(x))])
+    # def schwefel_function(self, x):
+     #   return 418.9829 * len(x) - sum([x[i] * math.sin(math.sqrt(abs(x[i]))) for i in range(len(x))])
 
     def rastrigin_function(self, x):
         return 10 * len(x) + sum([(i**2 - 10 * math.cos(2 * math.pi * i)) for i in x])

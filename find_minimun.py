@@ -9,7 +9,7 @@ f = 0.7
 cr = 0.5
 dimension = 3
 
-algorithmNr = 5
+algorithmNr = 4
 amimation_limit = 20  # limit of iterations for animation
 count_of_results_point_chart = 20
 
