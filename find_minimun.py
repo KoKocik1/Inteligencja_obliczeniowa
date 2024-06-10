@@ -3,16 +3,15 @@ from charts.charts import Charts
 import numpy as np
 import math
 
-number_of_iterations = 10000
-number_of_indeviduals = 100
+number_of_iterations = 500
+number_of_indyviduals = 1000
 f = 0.7
 cr = 0.5
 dimension = 3
 
-algorithmNr = 4
-
-points = np.random.rand(100, 3) * 100  # Losowe punkty 3D
-
+algorithmNr = 5
+amimation_limit = 20  # limit of iterations for animation
+count_of_results_point_chart = 20
 
 evolutionAlgorithm = EvolutionAlgorithm()
 
@@ -41,20 +40,32 @@ if algorithmNr == 4:
                                          3.7, -4.69, -5.69, -6.68, -7.66, -8.66, -9.66, -10.65]
     evolutionAlgorithm.expected_range = [0, 0]
 
-if algorithmNr >= 5:
-    evolutionAlgorithm.funkcja = evolutionAlgorithm.schwefel_function
+if algorithmNr == 5:
+    evolutionAlgorithm.function = evolutionAlgorithm.schwefel_function
     evolutionAlgorithm.range = [-500, 500]
     evolutionAlgorithm.expected_value = 0
     evolutionAlgorithm.expected_range = [420.9687, 420.9687]
+
+if algorithmNr == 6:
+    evolutionAlgorithm.function = evolutionAlgorithm.rastrigin_function
+    evolutionAlgorithm.range = [-5.12, 5.12]
+    evolutionAlgorithm.expected_value = 0
+    evolutionAlgorithm.expected_range = [0, 0]
+
+if algorithmNr >= 7:
+    evolutionAlgorithm.function = evolutionAlgorithm.ackley_function
+    evolutionAlgorithm.range = [-32, 32]
+    evolutionAlgorithm.expected_value = 0
+    evolutionAlgorithm.expected_range = [0, 0]
 
 charts = Charts()
 
 # population init
 population = evolutionAlgorithm.init_population(
-    number_of_indeviduals, dimension)
+    number_of_indyviduals, dimension)
 
 # points of charts x axis
-points_of_charts = [1, 2, 5, 10, 15, 20, 50, 100, 500, 999]
+# points_of_charts = [1, 2, 5, 10, 15, 20, 50, 100, 500, 999]
 axis_x = list(range(number_of_iterations))
 
 best_solution_of_iteration = []
@@ -71,7 +82,8 @@ for iteration in range(number_of_iterations):
         population, new_population)
 
     if dimension == 3:
-        if iteration in points_of_charts:
+        # if iteration in points_of_charts:
+        if iteration < amimation_limit:
             charts.generate_chart(
                 f"Chart_iteration_{iteration}", np.array(population), evolutionAlgorithm.function, evolutionAlgorithm.range, evolutionAlgorithm.range)
 
@@ -96,7 +108,7 @@ print("Value of funciton for best solution:", best_value_global)
 print("Expected value:", evolutionAlgorithm.expected_value)
 print(f"Expected range: {evolutionAlgorithm.expected_range}")
 
-charts.display_charts()
+charts.display_animation()
 
 charts.generate_final_chart(
-    best_solution_of_iteration, midium_solution_of_iteration, worst_solution_of_iteration, axis_x)
+    best_solution_of_iteration, midium_solution_of_iteration, worst_solution_of_iteration, axis_x, count_of_results_point_chart)
