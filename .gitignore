@@ -165,3 +165,6 @@ img/*
 *.png
 kopie
 venv
+*.GIF
+*.gif
+.DS_Store

@@ -1,4 +1,2 @@
 matplotlib
 numpy
-ipywidgets
-PyQt5
