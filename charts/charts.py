@@ -51,7 +51,6 @@ class Charts:
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
 
-        # Ustalanie zakresu dla funkcji
         if x_range is not None:
             x_min, x_max = x_range
         else:
@@ -62,7 +61,6 @@ class Charts:
         else:
             y_min, y_max = np.min(points[:, 1]), np.max(points[:, 1])
 
-        # Generowanie wartości funkcji
         x_vals = np.linspace(x_min, x_max, 100)
         y_vals = np.linspace(y_min, y_max, 100)
         x_grid, y_grid = np.meshgrid(x_vals, y_vals)
@@ -70,15 +68,15 @@ class Charts:
                           for x, y in zip(np.ravel(x_grid), np.ravel(y_grid))])
         z_grid = z_vals.reshape(x_grid.shape)
 
-        # Rysowanie powierzchni funkcji
+        # Surface plot 3D
         ax.plot_surface(x_grid, y_grid, z_grid, color='r', alpha=0.5)
 
-        # Rysowanie punktów - obliczanie wartości z dla punktów
+        # Draw points
         z_points = np.array([func([x, y]) for x, y in points[:, :2]])
         ax.scatter(points[:, 0], points[:, 1],
                    z_points, color='blue', s=10)
 
-        # Ustawianie zakresu osi Z na podstawie zakresu funkcji
+        # Set z axis limits
         z_min, z_max = np.min(z_vals), np.max(z_vals)
         ax.set_zlim(z_min, z_max)
         ax.set_xlim(x_min, x_max)
@@ -89,39 +87,39 @@ class Charts:
         fig.savefig(chart_file)
         plt.close(fig)
 
+    # gerenare all charts in one image
     def display_charts(self):
         num_charts = len(self.charts)
         if num_charts == 0:
-            print("Brak wykresów do wyświetlenia.")
+            print("No charts to display.")
             return
 
-        # Wczytanie wszystkich zapisanych wykresów
+        # Create animations from saved photos
         images = [Image.open(chart) for chart in self.charts]
 
-        # Obliczanie łącznej wysokości nowego obrazu
+        # Calculate the total height and maximum width
         total_height = sum(image.height for image in images)
         max_width = max(image.width for image in images)
 
-        # Tworzenie nowego obrazu o odpowiednim rozmiarze
+        # create a new image with a white background
         combined_image = Image.new('RGB', (max_width, total_height))
 
-        # Wklejanie kolejnych wykresów jeden pod drugim
+        # adding charts to the combined image
         y_offset = 0
         for image in images:
             combined_image.paste(image, (0, y_offset))
             y_offset += image.height
 
-        # Wyświetlenie połączonego obrazu
         combined_image.show()
-        # Zapisanie połączonego obrazu
         combined_image.save('img/AllCharts.png')
 
     def animate(self, i):
         self.ax.clear()
         img = Image.open(self.charts[i])
         self.ax.imshow(img)
-        self.ax.axis('off')  # Ukrycie osi
+        self.ax.axis('off')
 
+    # create an animation from all charts
     def display_animation(self):
         num_charts = len(self.charts)
         if num_charts == 0:
@@ -129,7 +127,7 @@ class Charts:
             return
 
         self.fig, self.ax = plt.subplots(figsize=(16, 9))
-        # Możesz dostosować interwał
+
         ani = FuncAnimation(self.fig, self.animate,
                             frames=num_charts, interval=100)
         ani.save('img/AllCharts.gif', writer='pillow', fps=5)
